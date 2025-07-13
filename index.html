@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Speed and Accuracy Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; max-width: 800px; margin: auto; }
+    #passage, #questions, #results { display: none; }
+    button { padding: 10px 20px; margin-top: 20px; cursor: pointer; }
+    .question { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Reading Speed and Accuracy Test</h1>
+
+  <div id="intro">
+    <p>Click the button below to start the test. Your time will begin once you start reading. Try to read as fast as you can while understanding the passage.</p>
+    <button onclick="startReading()">Start Reading</button>
+  </div>
+
+  <div id="passage">
+    <h2>Reading Passage</h2>
+    <p>
+      In a small village nestled between rolling hills, an unusual tradition brought the community together each spring. The villagers would gather near the riverbank to release thousands of hand-painted paper boats into the water. Each boat carried a message of hope, love, or remembrance. Some messages were personal, meant for lost relatives or faraway friends, while others carried wishes for good harvests or peaceful days ahead.<br><br>
+      Children eagerly painted their boats in vibrant colors, while elders wrote their messages with careful precision. As the sun dipped below the horizon, the boats were gently placed on the water, lighting up the surface like tiny glowing stars. It was a sight that left visitors in awe and brought tears to the eyes of those who participated.<br><br>
+      The festival reminded everyone of the power of unity and the beauty of small gestures. For the villagers, it wasn’t just a tradition—it was a way to express feelings that were often left unspoken during the rest of the year.
+    </p>
+    <button onclick="finishReading()">Finish Reading</button>
+  </div>
+
+  <div id="questions">
+    <h2>Comprehension Questions</h2>
+    <form id="quizForm">
+      <div class="question">
+        <label>1. What was the central tradition in the village?</label><br>
+        <input type="radio" name="q1" value="b"> Sending paper boats with messages<br>
+        <input type="radio" name="q1" value="a"> Planting trees<br>
+        <input type="radio" name="q1" value="c"> Dancing in the river<br>
+        <input type="radio" name="q1" value="d"> Painting houses
+      </div>
+
+      <div class="question">
+        <label>2. Who painted the boats in vibrant colors?</label><br>
+        <input type="radio" name="q2" value="c"> Children<br>
+        <input type="radio" name="q2" value="a"> Elders<br>
+        <input type="radio" name="q2" value="b"> Priests<br>
+        <input type="radio" name="q2" value="d"> Tourists
+      </div>
+
+      <div class="question">
+        <label>3. What did the boats symbolize?</label><br>
+        <input type="radio" name="q3" value="c"> Hope and remembrance<br>
+        <input type="radio" name="q3" value="a"> Wealth<br>
+        <input type="radio" name="q3" value="b"> Travel<br>
+        <input type="radio" name="q3" value="d"> Celebration
+      </div>
+
+      <div class="question">
+        <label>4. When did the villagers release the boats?</label><br>
+        <input type="radio" name="q4" value="c"> At sunset<br>
+        <input type="radio" name="q4" value="a"> At sunrise<br>
+        <input type="radio" name="q4" value="b"> During lunchtime<br>
+        <input type="radio" name="q4" value="d"> After midnight
+      </div>
+
+      <div class="question">
+        <label>5. Why was the tradition important to the villagers?</label><br>
+        <input type="radio" name="q5" value="c"> It brought the community together and expressed emotions<br>
+        <input type="radio" name="q5" value="a"> It attracted tourists<br>
+        <input type="radio" name="q5" value="b"> It helped with fishing<br>
+        <input type="radio" name="q5" value="d"> It was required by law
+      </div>
+
+      <button type="button" onclick="calculateResults()">Submit Answers</button>
+    </form>
+  </div>
+
+  <div id="results">
+    <h2>Results</h2>
+    <p><strong>Time Taken:</strong> <span id="timeTaken"></span> seconds</p>
+    <p><strong>Reading Speed:</strong> <span id="wpm"></span> words per minute</p>
+    <p><strong>Accuracy:</strong> <span id="score"></span> / 5</p>
+  </div>
+
+  <script>
+    let startTime, endTime;
+
+    function startReading() {
+      document.getElementById('intro').style.display = 'none';
+      document.getElementById('passage').style.display = 'block';
+      startTime = new Date();
+    }
+
+    function finishReading() {
+      document.getElementById('passage').style.display = 'none';
+      document.getElementById('questions').style.display = 'block';
+      endTime = new Date();
+    }
+
+    function calculateResults() {
+      const answers = {
+        q1: 'b',
+        q2: 'c',
+        q3: 'c',
+        q4: 'c',
+        q5: 'c'
+      };
+      let score = 0;
+      for (let i = 1; i <= 5; i++) {
+        const q = document.querySelector(`input[name=q${i}]:checked`);
+        if (q && q.value === answers[`q${i}`]) {
+          score++;
+        }
+      }
+      const timeTaken = (endTime - startTime) / 1000;
+      const wpm = Math.round((200 / (timeTaken / 60)));
+
+      document.getElementById('questions').style.display = 'none';
+      document.getElementById('results').style.display = 'block';
+      document.getElementById('timeTaken').textContent = timeTaken.toFixed(1);
+      document.getElementById('wpm').textContent = wpm;
+      document.getElementById('score').textContent = score;
+    }
+  </script>
+</body>
+</html>
