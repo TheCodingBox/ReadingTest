@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reading Speed and Accuracy Test</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
-      background: #f4f7fa;
+      background: linear-gradient(to right, #e0f7fa, #fff);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 40px;
       color: #333;
-      max-width: 800px;
-      margin: auto;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 750px;
+      width: 90%;
     }
     h1, h2 {
       color: #2c3e50;
@@ -29,8 +41,9 @@
     button:hover {
       background-color: #2980b9;
     }
-    #passage, #questions, #results { display: none; }
-    .question { margin-top: 20px; }
+    .question {
+      margin-top: 20px;
+    }
     .wrong-answer {
       color: #e74c3c;
       font-weight: bold;
@@ -39,57 +52,50 @@
       color: #27ae60;
       font-weight: bold;
     }
-    .result-box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
     .answer-review {
       margin-top: 15px;
+    }
+    #passage, #questions, #results {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1>Reading Speed and Accuracy Test</h1>
+  <div class="container">
+    <h1>Reading Speed and Accuracy Test</h1>
 
-  <div id="intro">
-    <p>Click the button below to start the test. Your time will begin once you start reading. Try to read as fast as you can while understanding the passage.</p>
-    <button onclick="startReading()">Start Reading</button>
-  </div>
+    <div id="intro">
+      <p>Click below to begin. You'll read a short passage and then answer 5 questions. Your reading time and accuracy will be calculated.</p>
+      <button onclick="startReading()">Start Reading</button>
+    </div>
 
-  <div id="passage">
-    <h2>Reading Passage</h2>
-    <p id="readingText"></p>
-    <button onclick="finishReading()">Finish Reading</button>
-  </div>
+    <div id="passage">
+      <h2>Reading Passage</h2>
+      <p id="readingText"></p>
+      <button onclick="finishReading()">Finish Reading</button>
+    </div>
 
-  <div id="questions">
-    <h2>Comprehension Questions</h2>
-    <form id="quizForm"></form>
-    <button type="button" onclick="calculateResults()">Submit Answers</button>
-  </div>
+    <div id="questions">
+      <h2>Comprehension Questions</h2>
+      <form id="quizForm"></form>
+      <button type="button" onclick="calculateResults()">Submit Answers</button>
+    </div>
 
-  <div id="results" class="result-box">
-    <h2>Results</h2>
-    <p><strong>Time Taken:</strong> <span id="timeTaken"></span> seconds</p>
-    <p><strong>Reading Speed:</strong> <span id="wpm"></span> words per minute</p>
-    <p><strong>Accuracy:</strong> <span id="score"></span> / 5 (<span id="accuracyPercent"></span>%)</p>
-    <div class="answer-review" id="review"></div>
-    <button onclick="retryTest()">Try Another Passage</button>
+    <div id="results">
+      <h2>Results</h2>
+      <p><strong>Time Taken:</strong> <span id="timeTaken"></span> seconds</p>
+      <p><strong>Reading Speed:</strong> <span id="wpm"></span> words per minute</p>
+      <p><strong>Accuracy:</strong> <span id="score"></span> / 5 (<span id="accuracyPercent"></span>%)</p>
+      <div class="answer-review" id="review"></div>
+      <button onclick="retryTest()">Try Another Passage</button>
+    </div>
   </div>
 
   <script>
     const passages = [
       {
         text: `In a small village nestled between rolling hills, an unusual tradition brought the community together each spring. The villagers would gather near the riverbank to release thousands of hand-painted paper boats into the water. Each boat carried a message of hope, love, or remembrance. Some messages were personal, meant for lost relatives or faraway friends, while others carried wishes for good harvests or peaceful days ahead. Children eagerly painted their boats in vibrant colors, while elders wrote their messages with careful precision. As the sun dipped below the horizon, the boats were gently placed on the water, lighting up the surface like tiny glowing stars. It was a sight that left visitors in awe and brought tears to the eyes of those who participated. The festival reminded everyone of the power of unity and the beauty of small gestures. For the villagers, it wasn’t just a tradition—it was a way to express feelings that were often left unspoken during the rest of the year.`,
-        answers: {
-          q1: 'b',
-          q2: 'c',
-          q3: 'c',
-          q4: 'c',
-          q5: 'c'
-        },
+        answers: { q1: 'b', q2: 'c', q3: 'c', q4: 'c', q5: 'c' },
         questions: [
           '1. What was the central tradition in the village?',
           '2. Who painted the boats in vibrant colors?',
@@ -107,13 +113,7 @@
       },
       {
         text: `In the heart of the bustling city, a hidden garden thrived behind tall brick walls. It was tended by an elderly man named Mr. Wren, who spent his days planting herbs, feeding birds, and sharing stories with curious passersby. Over the years, the garden became a sanctuary for people seeking peace amid the chaos of urban life. Students came to read, artists came to sketch, and the elderly came to reminisce. Mr. Wren believed that every person who entered the garden left a little happier than they arrived. One day, the city planned to demolish the garden to make way for a new shopping center, but the community rallied together in protest. Their voices were heard, and the garden was saved. It became a permanent symbol of what could be achieved through unity and care.`,
-        answers: {
-          q1: 'a',
-          q2: 'd',
-          q3: 'b',
-          q4: 'c',
-          q5: 'd'
-        },
+        answers: { q1: 'a', q2: 'd', q3: 'b', q4: 'c', q5: 'd' },
         questions: [
           '1. Where was the garden located?',
           '2. Who used the garden to reminisce?',
@@ -131,13 +131,7 @@
       },
       {
         text: `A young girl named Lina discovered a dusty, locked chest in her grandmother’s attic. Inside, she found dozens of letters from the past, each telling a piece of her family’s history. One letter described how her great-grandfather escaped war; another revealed a hidden love story between two unlikely people. Lina spent the whole summer reading, documenting, and creating a digital archive of everything she found. Her discovery not only connected her with her ancestors but also inspired her to become a historian. Years later, she published a book based on those letters, preserving her family’s legacy for generations.`,
-        answers: {
-          q1: 'b',
-          q2: 'd',
-          q3: 'a',
-          q4: 'b',
-          q5: 'c'
-        },
+        answers: { q1: 'b', q2: 'd', q3: 'd', q4: 'b', q5: 'c' },
         questions: [
           '1. What did Lina find in the attic?',
           '2. What was one of the letters about?',
@@ -163,6 +157,7 @@
       document.getElementById('intro').style.display = 'none';
       document.getElementById('passage').style.display = 'block';
       document.getElementById('readingText').innerText = currentPassage.text;
+
       const form = document.getElementById('quizForm');
       form.innerHTML = '';
 
@@ -203,7 +198,7 @@
           score++;
           reviewHTML += `<p><span class="right-answer">Question ${i}: Correct</span></p>`;
         } else {
-          reviewHTML += `<p><span class="wrong-answer">Question ${i}: Your answer: ${selectedVal || 'None'} — Correct answer: ${correct}</span></p>`;
+          reviewHTML += `<p><span class="wrong-answer">Question ${i}: Your answer: ${selectedVal || 'None'} — Correct: ${correct}</span></p>`;
         }
       }
 
